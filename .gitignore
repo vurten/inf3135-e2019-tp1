@@ -1,3 +1,6 @@
-.zip
-.jar
-.tar
+*.zip
+*.jar
+*.tar
+*.out
+*.o
+
