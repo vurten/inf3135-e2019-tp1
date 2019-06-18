@@ -23,8 +23,8 @@ Le message est soit une phrase claire en français ou bien crypté.
 
 les options facultatives sont : -i (donner le nom du fichier d'entrée) -a (le chemin du fichier alphabet) -o (le fichier de sortie)
 les options obligatoires sont : -k (la clé) -d | -e (decoder ou encoder) -c (code permanent)
-exemple1 :' ./tp1 -i message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 -o sortie.txt '
-exemple2:' ./tp1 < message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 > sortie.txt '
+exemple1 :``` ./tp1 -i message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 -o sortie.txt``` 
+exemple2: ```./tp1 < message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 > sortie.txt ```
 ## Contenu du projet
 
 Ce projet contient les fichiers suivants:
@@ -40,4 +40,5 @@ Ce sit m'a beaucoup aide afin de comprendre plusieurs choses sur le langage C ht
 
 ## Statut
 
-Tout mon programme marche bien sauf pour les < > j'ai pas su comment bien utiliser le stdin et stdout. pour que mon programme marche faut faire le -i et -o et non pas < et >
+Tout mon programme marche bien sauf pour les``` <``` ``` >``` j'ai pas su comment bien utiliser le stdin et stdout. pour que mon programme marche faut faire le ```-i``` et ```-o``` et non pas ```<```
+ et``` >```
