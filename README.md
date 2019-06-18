@@ -21,9 +21,11 @@ La clé est soit un nombre positif ou un nombre négatif. Il faut utiliser
 la clé afin de faire bouger les alphabets pour obtenir un message clair.
 Le message est soit une phrase claire en français ou bien crypté.
 
-les options facultatives sont : -i (donner le nom du fichier d'entrée) -a (le chemin du fichier alphabet) -o (le fichier de sortie)
-les options obligatoires sont : -k (la clé) -d | -e (decoder ou encoder) -c (code permanent)
+les options facultatives sont : ```-i``` (donner le nom du fichier d'entrée) ```-a``` (le chemin du fichier alphabet)```-o``` (le fichier de sortie)
+les options obligatoires sont : ```-k``` (la clé) ```-d``` | ```-e``` (decoder ou encoder) ```-c``` (code permanent)
+
 exemple1 :``` ./tp1 -i message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 -o sortie.txt``` 
+
 exemple2: ```./tp1 < message.txt -k 2 -e -a alphabet.txt -c ABCD12345678 > sortie.txt ```
 ## Contenu du projet
 
