@@ -38,7 +38,7 @@ Ce projet contient les fichiers suivants:
 - Un fichier .gitignore qui contient les fichiers intentionnellement non suivis que Git doit ignorer.
 
 ## Références
-Ce sit m'a beaucoup aide afin de comprendre plusieurs choses sur le langage C https://openclassrooms.com/fr/courses/19980-apprenez-a-programmer-en-c   
+Ce site m'a beaucoup aidé  afin de comprendre plusieurs choses sur le langage C https://openclassrooms.com/fr/courses/19980-apprenez-a-programmer-en-c   
 
 ## Statut
 
