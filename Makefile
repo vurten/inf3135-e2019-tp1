@@ -9,9 +9,9 @@ FILEIN = ./data/crypto-msg01.in
 FILEOUT = ./data/crypto-msg01.out
 FILEALPHA = ./data/crypto-msg01.alphabet
 
-CLE =	`cat ./data/crypto-msg01.cle`
-ACTION =	`cat ./data/crypto-msg01.action`
-CP =	`cat cp.txt`
+CLE=`cat ./data/crypto-msg01.cle`
+ACTION=`cat ./data/crypto-msg01.action`
+CP=`cat cp.txt`
 
 default: tp1
 

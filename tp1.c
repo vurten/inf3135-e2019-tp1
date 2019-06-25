@@ -41,12 +41,12 @@ for(int i = 0 ; i < argc ; i++) {
 
 		if(longueur != 12 ){
 			return 2;
-		}else {
-			fichierCp = fopen("cp.txt", "w");
-			fprintf(fichierCp, "%s\n", argv[i+1]);
-			fclose(fichierCp);
-			codeC = 1;
-		}
+		} //else {
+		//	fichierCp = fopen("cp.txt", "w");
+		//	fprintf(fichierCp, "%s\n", argv[i+1]);
+	//		fclose(fichierCp);
+	//		codeC = 1;
+	//	}
 
 // verification des arguments pour savoir si on veut decoder ou encoder
 	}else if(strcmp(argv[i] ,"-d") == 0) {
