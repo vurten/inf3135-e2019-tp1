@@ -37,5 +37,5 @@ resultat:
 	git commit -m "le fichier note-du-tp.txt est pousse dans le depot distant"
 	git push origin master
 
-test:
+test: data tp1
 	./$(TARGET) -i $(FILEIN) -o $(FILEOUT) -a $(FILEALPHA) -k ${CLE} ${ACTION} -c ${CP}

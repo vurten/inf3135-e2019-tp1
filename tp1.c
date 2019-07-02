@@ -12,7 +12,7 @@ void stockerFichierA( char *chemin, char *texte );
 
 // declaration des variables utilisess
 int main (int argc , char *argv[]){
-FILE *fichierCp = stdout;
+//FILE *fichierCp = stdout;
 int encoder = 0;
 int decoder = 0;
 int codeC = 0;
@@ -57,15 +57,14 @@ for(int i = 0 ; i < argc ; i++) {
 		decoder =0;
 
 // verification de la cle elle doit etre juste un chiffre positif ou negatif sinon on renvoi une erreur
-        }else if(strcmp(argv[i] ,"-k") == 0) {
-
+    }else if(strcmp(argv[i] ,"-k") == 0) {
+  //isdigit() // ou atol() non?
 		for (int j = 1 ; j < strlen(argv[i+1]) ; j++) {
 
 			if ( (argv[i+1][0] != '-') && (argv[i+1][0] != '+') && (isdigit(argv[i+1][0]))==0 ) {
 				estNbr = false;
 				return 7;
 			}
-
 			if ((isdigit(argv[i+1][j])) ==0) {
 				estNbr = false;
 				return 7;
@@ -100,12 +99,12 @@ for(int i = 0 ; i < argc ; i++) {
 
 // traitement des arguments non valide on renvoi -3 si c'est different de -i -o -a -k -s -d -e
 
-	}else if (argv[i][0] == '-' && (argv[i][1] != 'i' || argv[i][1] != 'o' || argv[i][1] != 'a' || argv[i][1] != 'k' || argv[i][1] != 'd' || argv[i][1] != 'e' || argv[i][1] != 'a') 
+	}else if (argv[i][0] == '-' && (argv[i][1] != 'i' || argv[i][1] != 'o' || argv[i][1] != 'a' || argv[i][1] != 'k' || argv[i][1] != 'd' || argv[i][1] != 'e' || argv[i][1] != 'a')
 			&& strcmp(argv[i-1] ,"-k") != 0){
 		return 3;
 	}
 }
-// on verifie si le fichier alphabet et dans le meme dossier  que le projet 
+// on verifie si le fichier alphabet et dans le meme dossier  que le projet
 if (AEstLa != 1){
 	longueurFichierA = nbrCarac ("alphabet.txt");
         alphabet = (char *)malloc( longueurFichierA*sizeof(char) );
@@ -113,10 +112,10 @@ if (AEstLa != 1){
 
 }
 // si le code permanent n'est pas present on retourne une erreur
-if (codeC != 1){
-	fprintf(stderr, "Usage: %s <-c CODEpermanent> <-d | -e> <-k valeur> [-i fichier.in] [-o fichier.out] [-a chemin]\n", argv[0]);
-	return 1;
-}
+//if (codeC != 1){
+//	fprintf(stderr, "Usage: %s <-c CODEpermanent> <-d | -e> <-k valeur> [-i fichier.in] [-o fichier.out] [-a chemin]\n", argv[0]);
+//	return 1;
+//}
 
 // si dans les arguments on ne sait pas si la personne veut encoder ou decoder on recoit une erreur
 if (decoder == 1 || encoder == 1){
@@ -175,7 +174,7 @@ if (cle > 0) {
 		}
         }
 
-// traitement pour les cles qui sont inferieur a 0  
+// traitement pour les cles qui sont inferieur a 0
 }else if (cle < 0){
         for (int i =0 ; i < strlen(tableau); i++){
 
