@@ -3,11 +3,11 @@
 TARGET = tp1
 OBJECTS = tp1.o
 CC = gcc
-CFLAGS = -Wall -pedantic -std=c11
+CFLAGS = -Wall -pedantic -std=c11 -lm -O2
 SOURCE = https://www.github.com/guyfrancoeur/INF3135_E2019_TP/raw/master/crypto-data.zip
 FILEIN = ./data/crypto-msg01.in
 FILEOUT = ./data/crypto-msg01.out
-FILEALPHA = ./data/crypto-msg01.alphabet
+FILEALPHA = ./data
 
 CLE=`cat ./data/crypto-msg01.cle`
 ACTION=`cat ./data/crypto-msg01.action`
@@ -27,10 +27,12 @@ data:
 	wget $(SOURCE)
 	unzip crypto-data.zip -d ./data
 	rm -rf crypto-data.zip
+	mv ./data/crypto-msg01.alphabet ./data/alphabet.txt
+
+
 
 clean:
-	rm -rf $(TARGET) *.o
-	rm -rf data
+	rm -rf *.o data tp1 tp2 *.h.gch
 
 resultat:
 	git add note-du-tp.txt
@@ -39,3 +41,4 @@ resultat:
 
 test: data tp1
 	./$(TARGET) -i $(FILEIN) -o $(FILEOUT) -a $(FILEALPHA) -k ${CLE} ${ACTION} -c ${CP}
+
