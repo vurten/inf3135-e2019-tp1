@@ -4,61 +4,56 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-// prototypes de fonctions utilisees
-int nbrCarac (char *Chemin);
-void stockerFichier( char* chemin, char* texte );
-void ecrireFichier (char *texte,char *chaine);
-void stockerFichierA( char *chemin, char *texte );
 
-// declaration des variables utilisess
+
+
+
+
 int main (int argc , char *argv[]){
-//FILE *fichierCp = stdout;
+int codeC = 0;
 int encoder = 0;
 int decoder = 0;
-int codeC = 0;
 int cleEstLa = 0;
-long int cleA = 0;
-bool estNbr = true;
-long int longueurFichier = 0;
-long int longueurFichierA = 0;
-char *tableau = 0;
-char *alphabet = 0;
-char nomFichierSortie[1000] ={0};
 int AEstLa = 0;
+bool estNbr = true;
+long int cleA = 0;
 
+FILE *alpha = NULL;
+int nbrAlpha = 0;
+char *tableau = 0;
+long int longueur = 0;
+FILE *entree = stdin;
+FILE *sortie = stdout;
 
-// boucle principale qui traite les validations
 for(int i = 0 ; i < argc ; i++) {
 
-// s'il y a un seul argument ou moins le programme renvoie une erreur
 	if(argc <= 1) {
 		fprintf(stderr, "Usage: %s <-c CODEpermanent> <-d | -e> <-k valeur> [-i fichier.in] [-o fichier.out] [-a chemin]\n", argv[0]);
 	return 1;
-// si le code permanent a -12 caracteres le programme renvoie une erreur sinon il ouvre le fichier cp.txt et le stock dedans
+
+// validation du code permanent -c
 
 	}else if(strcmp(argv[i] ,"-c") == 0) {
 		int longueur = strlen(argv[i+1]);
+		codeC = 1;
 
 		if(longueur != 12 ){
 			return 2;
-		} //else {
-		//	fichierCp = fopen("cp.txt", "w");
-		//	fprintf(fichierCp, "%s\n", argv[i+1]);
-	//		fclose(fichierCp);
-	//		codeC = 1;
-	//	}
+		}
 
-// verification des arguments pour savoir si on veut decoder ou encoder
+// compteur pour decoder -d
+
 	}else if(strcmp(argv[i] ,"-d") == 0) {
 		decoder = 1;
-		encoder =0;
+
+// compteur pour encoder -e
+
 	}else if(strcmp(argv[i] ,"-e") == 0) {
 		encoder =1;
-		decoder =0;
 
-// verification de la cle elle doit etre juste un chiffre positif ou negatif sinon on renvoi une erreur
-    }else if(strcmp(argv[i] ,"-k") == 0) {
-  //isdigit() // ou atol() non?
+// valider la cle -k
+
+	}else if(strcmp(argv[i] ,"-k") == 0) {
 		for (int j = 1 ; j < strlen(argv[i+1]) ; j++) {
 
 			if ( (argv[i+1][0] != '-') && (argv[i+1][0] != '+') && (isdigit(argv[i+1][0]))==0 ) {
@@ -76,223 +71,249 @@ for(int i = 0 ; i < argc ; i++) {
 			cleA = strtol(argv[i+1], NULL, 0);
 			cleEstLa = 1;
 		}
-// si l'argument est -i on va aller chercher l'autre argument puis ouvrir le fichier et le stocker dans un tableau
+
+// valider le input -i
 
 	}else if(strcmp(argv[i] ,"-i") == 0) {
 
-		longueurFichier = nbrCarac (argv[i+1]);
-		tableau = (char *)malloc( longueurFichier*sizeof(char));
-		stockerFichier( argv[i+1], tableau );
-// si l'argument est -a on va aller chercher l'autre argument puis ouvrir le fichier et le stocker dans un tableau
+		entree = fopen( argv[i+1], "r");
 
-	}else if(strcmp(argv[i] ,"-a") == 0) {
+		if (entree == NULL){
+			return 5;
+		}else {
 
-		longueurFichierA = nbrCarac (argv[i+1]);
-		alphabet = (char *)malloc( longueurFichierA*sizeof(char) );
-		stockerFichierA( argv[i+1], alphabet );
-		AEstLa = 1;
+		}if (entree != NULL){
+			int carac = 0;
 
-// si l'argument est -o on va aller chercher le prochain argument pour le stocker comme etant le nom de fichier
+			while(carac != EOF){
+				carac = fgetc(entree);
+				if (carac != EOF){
+					longueur = longueur +1;
+				}
+			}
+
+
+		}
+
+		fclose(entree);
+		entree = fopen( argv[i+1], "r");
+
+		longueur = longueur -1;
+		
+
+
+
+// valider le output -o
+
 	}else if(strcmp(argv[i] ,"-o") == 0) {
 
-		strncpy(nomFichierSortie, argv[i+1],1000);
+		sortie = fopen( argv[i+1], "w");
+		if (sortie == NULL){
+			return 6;
+		}
+// valider le fichier alphabet -a
 
-// traitement des arguments non valide on renvoi -3 si c'est different de -i -o -a -k -s -d -e
+	}else if(strcmp(argv[i] ,"-a") == 0) {
+		char alphabet [13]= "alphabet.txt";
+		char alphabetSlash[14] = "/alphabet.txt";
+		char cheminAlphabet [1000] = {0};
+		int  longChaine = strlen(argv[i+1]);
+		AEstLa = 1;
+
+		strcat(cheminAlphabet,argv[i+1]);
+
+		if(cheminAlphabet[longChaine-1] == '/'){
+			strcat(cheminAlphabet,alphabet);
+		}else if(cheminAlphabet[longChaine-1] != '/'){
+			strcat(cheminAlphabet,alphabetSlash);
+		}
+
+
+		alpha = fopen( cheminAlphabet, "r");
+
+		if (alpha == NULL){
+			return 8;
+		}else if (alpha != NULL){
+			int carac = 0;
+
+			while(carac != EOF){
+				carac = fgetc(alpha);
+				if (carac != EOF){
+					nbrAlpha = nbrAlpha +1;
+				}
+			}
+
+
+		}
+
+		fclose(alpha);
+		tableau = (char *)malloc( nbrAlpha*sizeof(char));
+		alpha = fopen( cheminAlphabet, "r");
+		if( alpha != NULL && tableau != NULL ){
+                	int j = 0;
+                	char caract = 0;
+                	while(fscanf(alpha,"%c",&caract) != EOF){
+                     		tableau[j]=caract;
+                        	j++;
+                	}
+      		}else {
+             		exit(8);
+        	}
+		fclose(alpha);
+
+// valider si argument non valide
 
 	}else if (argv[i][0] == '-' && (argv[i][1] != 'i' || argv[i][1] != 'o' || argv[i][1] != 'a' || argv[i][1] != 'k' || argv[i][1] != 'd' || argv[i][1] != 'e' || argv[i][1] != 'a')
 			&& strcmp(argv[i-1] ,"-k") != 0){
 		return 3;
 	}
-}
-// on verifie si le fichier alphabet et dans le meme dossier  que le projet
-if (AEstLa != 1){
-	longueurFichierA = nbrCarac ("alphabet.txt");
-        alphabet = (char *)malloc( longueurFichierA*sizeof(char) );
-        stockerFichierA( "alphabet.txt", alphabet );
+
 
 }
-// si le code permanent n'est pas present on retourne une erreur
-//if (codeC != 1){
-//	fprintf(stderr, "Usage: %s <-c CODEpermanent> <-d | -e> <-k valeur> [-i fichier.in] [-o fichier.out] [-a chemin]\n", argv[0]);
-//	return 1;
-//}
 
-// si dans les arguments on ne sait pas si la personne veut encoder ou decoder on recoit une erreur
-if (decoder == 1 || encoder == 1){
 
-}else {
+if (codeC == 0){
+
+}
+
+// gerer les erreurs de -d et -e
+
+if (decoder == 0 && encoder == 0){
 	return 4;
 }
-// si la cle n'est pas on retourne une erreur
+ if (decoder == 1 && encoder == 1){
+	return 9;
+}
+
+// si le -k est pas la on lance une erreur
+
 if (cleEstLa != 1){
 	return 7;
 }
-// creation du tableau qui va contenir le resultat qu'on va affiche au final
-char resultat[longueurFichier];
-resultat[longueurFichier] = 0;
 
-longueurFichierA = longueurFichierA -1;
+// si le -a est pas la on ouvre le fichier alphabet.txt
 
-// si on veut decoder on va multiplier la cle par -1
-if (decoder == 1){
-        cleA = (-1) * cleA;
-}
+if (AEstLa != 1){
+	alpha = fopen( "alphabet.txt", "r");
 
-long int cle = cleA;
-cle = cle % longueurFichierA;
+	if (alpha == NULL){
+		return 8;
+	}else if (alpha != NULL){
+			int carac = 0;
 
-
-// traitement pour les cles qui sont >0
-if (cle > 0) {
-
-        for (int i =0 ; i < strlen(tableau); i++){
-
-		if (tableau[i] < 'a' || tableau[i] > 'z'){
-			resultat[i] = tableau[i];
-		}else {
-			resultat[i] = tableau[i];
-
-			for(int j = 0 ; j < strlen(alphabet) ; j++){
-
-				if (resultat[i] != alphabet[j]){
-				}else {
-					do{
-						if(resultat[i] != 'z'){
-							resultat[i] =  1 + resultat[i];
-							 --cle;
-						}else {
-							resultat[i] = 'a';
-							--cle;
-						}
-
-					} while (cle > 0 );
-					j = strlen(alphabet);
-					cle = cleA;
+			while(carac != EOF){
+				carac = fgetc(alpha);
+				if (carac != EOF){
+					nbrAlpha = nbrAlpha +1;
 				}
 			}
 
+
 		}
-        }
-
-// traitement pour les cles qui sont inferieur a 0
-}else if (cle < 0){
-        for (int i =0 ; i < strlen(tableau); i++){
-
-                if (tableau[i] < 'a' || tableau[i] > 'z'){
-                        resultat[i] = tableau[i];
-                }else {
-                        resultat[i] = tableau[i];
-
-                        for(int j = 0 ; j < strlen(alphabet) ; j++){
-
-                                if (resultat[i] != alphabet[j]){
-                                }else {
-                                        do{
-                                                if(resultat[i] != 'a'){
-                                                         --resultat[i];
-                                                         ++cle;
-                                                }else {
-                                                        resultat[i] = 'z';
-                                                        ++cle;
-                                                }
-
-                                        } while (cle < 0 );
-                                        j = strlen(alphabet);
-					cle = cleA;
-                                }
-                        }
-
-                }
-        }
-// sinon si la cle est egal a 0 on laisse le message comme il est
-}else {
-	for (int i =0 ; i < strlen(tableau) ; i++){
-		resultat[i] = tableau[i];
-	}
-}
-
-free(alphabet);
-free(tableau);
-
-// on ecrit le fichier sauvegarder dans un fichier
-ecrireFichier (nomFichierSortie, resultat);
-
-return 0;
-}
-
-// une methode qui calcule le nombre de caractere dans un fichier
-int nbrCarac (char *Chemin){
-
-	FILE *fichier = fopen(Chemin,"r");
-	int longueur = 0;
-	char carac;
-
-	if(fichier != NULL){
-		while(fscanf(fichier,"%c",&carac) != EOF){
-                        longueur++;
-		}
-	}else {
-		return 5;
-	}
-
-	fclose(fichier);
-	return longueur;
-}
-
-// cette methode permet de stocker le contenu d un fichier dans un tableau
-void stockerFichier( char *chemin, char *texte ) {
-    FILE *fichier = fopen(chemin,"r");
-
-    if( fichier != NULL && texte != NULL )
-      {
-               int i=0;
-               char carac;
-               while(fscanf(fichier,"%c",&carac) != EOF)
+fclose(alpha);
+tableau = (char *)malloc( nbrAlpha*sizeof(char));
+alpha = fopen( "alphabet.txt", "r");
+if( alpha != NULL && tableau != NULL ){
+               int j = 0;
+               char caract = 0;
+               while(fscanf(alpha,"%c",&caract) != EOF)
                     {
-                        texte[i]=carac;
-                        i++;
-                    }
-      }else {
-		exit(5);
-	}
-
-
-    fclose(fichier);
-}
-
-// cette methode permet d ecrire le contenu du resultat final dans un fichier
-void ecrireFichier (char *texte,char *chaine) {
-	FILE* fichier = NULL;
-
-    fichier = fopen(texte, "w");
-
-    if (fichier != NULL){
-        fputs(chaine, fichier);
-        fclose(fichier);
-    }else {
-	exit(5);
-	}
-
-
-}
-
-// cette methode permet de stocker le fichier alphabet
-void stockerFichierA( char *chemin, char *texte ) {
-    FILE *fichier = fopen(chemin,"r");
-
-    if( fichier != NULL && texte != NULL )
-      {
-               int i=0;
-               char carac;
-               while(fscanf(fichier,"%c",&carac) != EOF)
-                    {
-                     	texte[i]=carac;
-                        i++;
+                     	tableau[j]=caract;
+                        j++;
                     }
       }else {
              	exit(8);
         }
+fclose(alpha);
 
 
-    fclose(fichier);
 }
+
+// si -d est la on multiplie la cle * -1
+
+if (decoder == 1){
+        cleA = (-1) * cleA;
+}
+
+
+
+if (entree != NULL){
+
+
+
+int carac = 0;
+
+	while(carac != EOF){
+	carac = fgetc(entree);
+	if (carac != EOF){
+	longueur = longueur +1;
+	}
+	}
+rewind(entree);
+
+
+
+int caractere = 0;
+long int cle = 0;
+long int a = strlen(tableau) -1;
+if(cleA > a){
+	cle = cleA % a;
+}else if (cleA == a ){
+	cle = 0;
+}else{
+	cle = cleA % a;
+
+}
+
+
+
+long int z = cle;
+    	    
+	while( caractere != EOF && longueur > 0){
+
+		caractere = fgetc(entree);
+		longueur = longueur -1;
+		if (caractere != EOF ){
+			for(long int i = 0 ; i < strlen(tableau)-1 ; i++){
+				if ( caractere == tableau[i] ){
+					if ( (i + cle ) > a-1){
+						while((i+ cle )>  a-1){
+							cle = cle-1;
+							i = i+1;
+							if (i == a){
+
+							i =0;
+							}
+						}
+					
+					fputc(tableau[i+cle], sortie);
+					
+					i = strlen(tableau);
+					cle = z;
+					}else {
+						fputc(tableau[i+cle], sortie);
+					}
+					i = strlen(tableau);
+				
+				}else if ( (caractere != tableau[i]) && ((i) == strlen(tableau)-2) ){
+					fputc(caractere, sortie);
+					i = strlen(tableau);
+				}
+			}            		
+
+	
+		}
+	
+
+        }
+fclose (entree);
+fclose(sortie);
+free(tableau);
+
+}
+
+return 0;
+}
+
+
+
