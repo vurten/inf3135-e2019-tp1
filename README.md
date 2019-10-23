@@ -42,5 +42,4 @@ Ce site m'a beaucoup aidé  afin de comprendre plusieurs choses sur le langage C
 
 ## Statut
 
-Tout mon programme marche bien sauf pour les``` <``` ``` >``` j'ai pas su comment bien utiliser le stdin et stdout. pour que mon programme marche faut faire le ```-i``` et ```-o``` et non pas ```<```
- et``` >```
+Tout mon programme marche bien
